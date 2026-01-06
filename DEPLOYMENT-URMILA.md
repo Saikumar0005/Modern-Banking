@@ -67,7 +67,7 @@ docker-compose -f docker-compose.backend.yml up -d
 ## 🌐 GitHub Repository
 
 - **Repository**: https://github.com/springboardmentor997-create/Modern-Digital-Banking-Dashboard
-- **Your Branch**: `urmila`
+- **Your Branch**: `urmila-team1-backend`
 - **Status**: All code pushed successfully
 
 ## 🐳 Docker Services
@@ -90,7 +90,7 @@ docker-compose -f docker-compose.backend.yml up -d
 ### To update your code:
 1. Make changes to your code
 2. Commit changes: `git add . && git commit -m "Your message"`
-3. Push to urmila branch: `git push origin urmila`
+3. Push to urmila-team1-backend branch: `git push origin urmila-team1-backend`
 4. Redeploy: `deploy-backend-urmila.bat`
 
 ### To deploy full stack (frontend + backend):
@@ -133,7 +133,7 @@ curl http://localhost:8000/health
 
 1. **Test the API**: Visit http://localhost:8000/docs
 2. **Deploy Frontend**: Run `docker-compose up -d` for full stack
-3. **Create Pull Request**: Merge urmila branch to main when ready
+3. **Create Pull Request**: Merge urmila-team1-backend branch to main when ready
 4. **Production Deployment**: Use `docker-compose.prod.yml` for production
 
 ---
