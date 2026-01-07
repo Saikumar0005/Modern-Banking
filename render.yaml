@@ -12,7 +12,8 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r backend/requirements.txt
-    startCommand: cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    rootDir: backend
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -42,8 +43,9 @@ services:
     name: banking-frontend
     env: node
     plan: free
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm run preview -- --host 0.0.0.0 --port $PORT
+    buildCommand: npm install && npm run build
+    startCommand: npm run preview -- --host 0.0.0.0 --port $PORT
+    rootDir: frontend
     envVars:
       - key: VITE_API_URL
         value: https://banking-backend.onrender.com
