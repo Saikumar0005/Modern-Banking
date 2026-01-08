@@ -34,6 +34,9 @@ axiosClient.interceptors.response.use(
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';
+    } else if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK') {
+      console.error('Backend server is not running. Please start the backend server.');
+      // You could show a toast notification here
     }
     return Promise.reject(error);
   }
