@@ -2,39 +2,39 @@ import axiosClient from './client';
 
 // User Management
 export const getAllUsers = async () => {
-  const response = await axiosClient.get('/admin/users');
+  const response = await axiosClient.get('/api/admin/users');
   return response.data;
 };
 
 export const activateUser = async (userId) => {
-  const response = await axiosClient.put(`/admin/users/${userId}/activate`);
+  const response = await axiosClient.put(`/api/admin/users/${userId}/activate`);
   return response.data;
 };
 
 export const deactivateUser = async (userId) => {
-  const response = await axiosClient.put(`/admin/users/${userId}/deactivate`);
+  const response = await axiosClient.put(`/api/admin/users/${userId}/deactivate`);
   return response.data;
 };
 
 export const updateUser = async (userId, userData) => {
-  const response = await axiosClient.put(`/admin/users/${userId}`, userData);
+  const response = await axiosClient.put(`/api/admin/users/${userId}`, userData);
   return response.data;
 };
 
 export const deleteUser = async (userId) => {
-  const response = await axiosClient.delete(`/admin/users/${userId}`);
+  const response = await axiosClient.delete(`/api/admin/users/${userId}`);
   return response.data;
 };
 
 export const updateKYCStatus = async (userId, status) => {
-  const response = await axiosClient.put(`/admin/users/${userId}/kyc`, { status });
+  const response = await axiosClient.put(`/api/admin/users/${userId}/kyc`, { status });
   return response.data;
 };
 
 // System Overview
 export const getSystemSummary = async () => {
   try {
-    const response = await axiosClient.get('/admin/system-summary');
+    const response = await axiosClient.get('/api/admin/system-summary');
     console.log('System summary response:', response.data);
     return response.data;
   } catch (error) {
@@ -54,18 +54,18 @@ export const getSystemSummary = async () => {
 
 // Data Management
 export const getAllAccounts = async () => {
-  const response = await axiosClient.get('/admin/accounts');
+  const response = await axiosClient.get('/api/admin/accounts');
   return response.data;
 };
 
 export const getAllTransactions = async () => {
-  const response = await axiosClient.get('/admin/transactions');
+  const response = await axiosClient.get('/api/admin/transactions');
   return response.data;
 };
 
 export const getSuspiciousActivity = async () => {
   try {
-    const response = await axiosClient.get('/admin/suspicious-activity');
+    const response = await axiosClient.get('/api/admin/suspicious-activity');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Failed to fetch suspicious activity:', error);
@@ -75,7 +75,7 @@ export const getSuspiciousActivity = async () => {
 
 export const getSystemAlerts = async () => {
   try {
-    const response = await axiosClient.get('/admin/alerts');
+    const response = await axiosClient.get('/api/admin/alerts');
     return Array.isArray(response.data) ? response.data : [];
   } catch (error) {
     console.error('Failed to fetch system alerts:', error);
@@ -85,7 +85,7 @@ export const getSystemAlerts = async () => {
 
 export const getKYCOverview = async () => {
   try {
-    const response = await axiosClient.get('/admin/kyc-overview');
+    const response = await axiosClient.get('/api/admin/kyc-overview');
     return response.data;
   } catch (error) {
     // Return mock data if endpoint doesn't exist
@@ -110,7 +110,7 @@ export const getKYCOverview = async () => {
 
 export const getUserAnalytics = async () => {
   try {
-    const response = await axiosClient.get('/admin/analytics/users');
+    const response = await axiosClient.get('/api/admin/analytics/users');
     return response.data;
   } catch (error) {
     return { total_users: 0, active_users: 0, new_users: 0 };
@@ -119,7 +119,7 @@ export const getUserAnalytics = async () => {
 
 export const getTransactionAnalytics = async () => {
   try {
-    const response = await axiosClient.get('/admin/analytics/transactions');
+    const response = await axiosClient.get('/api/admin/analytics/transactions');
     return response.data;
   } catch (error) {
     return { total_transactions: 0, total_volume: 0, avg_transaction: 0 };
@@ -128,7 +128,7 @@ export const getTransactionAnalytics = async () => {
 
 export const getFinancialReport = async () => {
   try {
-    const response = await axiosClient.get('/admin/reports/financial');
+    const response = await axiosClient.get('/api/admin/reports/financial');
     return response.data;
   } catch (error) {
     return { revenue: 0, expenses: 0, profit: 0 };
@@ -137,7 +137,7 @@ export const getFinancialReport = async () => {
 
 export const getAuditLogs = async () => {
   try {
-    const response = await axiosClient.get('/admin/audit-logs');
+    const response = await axiosClient.get('/api/admin/audit-logs');
     return response.data;
   } catch (error) {
     return [];
@@ -146,7 +146,7 @@ export const getAuditLogs = async () => {
 
 export const getSystemHealth = async () => {
   try {
-    const response = await axiosClient.get('/admin/system/health');
+    const response = await axiosClient.get('/api/admin/system/health');
     return response.data;
   } catch (error) {
     return { status: 'healthy', uptime: '99.9%', response_time: '120ms' };
@@ -156,7 +156,7 @@ export const getSystemHealth = async () => {
 // Support-specific endpoints
 export const submitPasswordResetRequest = async (requestData) => {
   try {
-    const response = await axiosClient.post('/support/password-reset-request', requestData);
+    const response = await axiosClient.post('/api/support/password-reset-request', requestData);
     return response.data;
   } catch (error) {
     console.error('Failed to submit password reset request:', error);
@@ -166,7 +166,7 @@ export const submitPasswordResetRequest = async (requestData) => {
 
 export const getPasswordResetRequests = async () => {
   try {
-    const response = await axiosClient.get('/support/password-reset-requests');
+    const response = await axiosClient.get('/api/support/password-reset-requests');
     return response.data;
   } catch (error) {
     console.error('Failed to get password reset requests:', error);
@@ -176,7 +176,7 @@ export const getPasswordResetRequests = async () => {
 
 export const getSupportTickets = async () => {
   try {
-    const response = await axiosClient.get('/support/tickets');
+    const response = await axiosClient.get('/api/support/tickets');
     return response.data;
   } catch (error) {
     console.error('Failed to get support tickets:', error);
@@ -186,7 +186,7 @@ export const getSupportTickets = async () => {
 
 export const createSupportTicket = async (ticketData) => {
   try {
-    const response = await axiosClient.post('/support/tickets', ticketData);
+    const response = await axiosClient.post('/api/support/tickets', ticketData);
     return response.data;
   } catch (error) {
     console.error('Failed to create support ticket:', error);
@@ -197,7 +197,7 @@ export const createSupportTicket = async (ticketData) => {
 // Bulk operations
 export const bulkActivateUsers = async (userIds) => {
   try {
-    const response = await axiosClient.post('/admin/users/bulk-activate', userIds);
+    const response = await axiosClient.post('/api/admin/users/bulk-activate', userIds);
     return response.data;
   } catch (error) {
     console.error('Failed to bulk activate users:', error);
@@ -207,7 +207,7 @@ export const bulkActivateUsers = async (userIds) => {
 
 export const bulkDeactivateUsers = async (userIds) => {
   try {
-    const response = await axiosClient.post('/admin/users/bulk-deactivate', userIds);
+    const response = await axiosClient.post('/api/admin/users/bulk-deactivate', userIds);
     return response.data;
   } catch (error) {
     console.error('Failed to bulk deactivate users:', error);
@@ -217,7 +217,7 @@ export const bulkDeactivateUsers = async (userIds) => {
 
 export const exportUsers = async () => {
   try {
-    const response = await axiosClient.get('/admin/export/users');
+    const response = await axiosClient.get('/api/admin/export/users');
     return response.data;
   } catch (error) {
     console.error('Failed to export users:', error);
@@ -227,7 +227,7 @@ export const exportUsers = async () => {
 
 export const importUsers = async (users) => {
   try {
-    const response = await axiosClient.post('/admin/import/users', users);
+    const response = await axiosClient.post('/api/admin/import/users', users);
     return response.data;
   } catch (error) {
     console.error('Failed to import users:', error);
@@ -237,7 +237,7 @@ export const importUsers = async (users) => {
 
 export const performBackup = async () => {
   try {
-    const response = await axiosClient.post('/admin/system/backup');
+    const response = await axiosClient.post('/api/admin/system/backup');
     return response.data;
   } catch (error) {
     console.error('Failed to perform backup:', error);
@@ -247,7 +247,7 @@ export const performBackup = async () => {
 
 export const clearSystemCache = async () => {
   try {
-    const response = await axiosClient.post('/admin/system/clear-cache');
+    const response = await axiosClient.post('/api/admin/system/clear-cache');
     return response.data;
   } catch (error) {
     console.error('Failed to clear system cache:', error);
@@ -257,7 +257,7 @@ export const clearSystemCache = async () => {
 
 export const getSystemConfig = async () => {
   try {
-    const response = await axiosClient.get('/admin/system/config');
+    const response = await axiosClient.get('/api/admin/system/config');
     return response.data;
   } catch (error) {
     console.error('Failed to fetch system config:', error);
@@ -267,7 +267,7 @@ export const getSystemConfig = async () => {
 
 export const updateSystemConfig = async (config) => {
   try {
-    const response = await axiosClient.put('/admin/system/config', config);
+    const response = await axiosClient.put('/api/admin/system/config', config);
     return response.data;
   } catch (error) {
     console.error('Failed to update system config:', error);
@@ -278,7 +278,7 @@ export const updateSystemConfig = async (config) => {
 // CSV Import/Export functions
 export const exportTransactionsCSV = async () => {
   try {
-    const response = await axiosClient.get('/admin/transactions/export');
+    const response = await axiosClient.get('/api/admin/transactions/export');
     return response.data;
   } catch (error) {
     console.error('Failed to export transactions CSV:', error);
@@ -288,7 +288,7 @@ export const exportTransactionsCSV = async () => {
 
 export const exportUserTransactionsCSV = async (userId) => {
   try {
-    const response = await axiosClient.get(`/admin/transactions/user/${userId}/export`);
+    const response = await axiosClient.get(`/api/admin/transactions/user/${userId}/export`);
     return response.data;
   } catch (error) {
     console.error('Failed to export user transactions CSV:', error);
@@ -298,7 +298,7 @@ export const exportUserTransactionsCSV = async (userId) => {
 
 export const importTransactionsCSV = async (csvContent) => {
   try {
-    const response = await axiosClient.post('/admin/transactions/import', {
+    const response = await axiosClient.post('/api/admin/transactions/import', {
       csv_content: csvContent
     });
     return response.data;

@@ -2,7 +2,7 @@ import axiosClient from './client';
 
 export const getAlerts = async () => {
   try {
-    const response = await axiosClient.get('/alerts');
+    const response = await axiosClient.get('/api/alerts');
     return response.data;
   } catch (error) {
     console.error("Error fetching alerts:", error);
@@ -17,7 +17,7 @@ export const createAlert = async (title, message, priority = 'info') => {
       message: message,
       priority: priority
     };
-    const response = await axiosClient.post('/alerts/', alertData);
+    const response = await axiosClient.post('/api/alerts/', alertData);
     return response.data;
   } catch (error) {
     console.error("Error creating alert:", error);
@@ -27,7 +27,7 @@ export const createAlert = async (title, message, priority = 'info') => {
 
 export const checkBillReminders = async () => {
   try {
-    const response = await axiosClient.post('/alerts/bill-reminders');
+    const response = await axiosClient.post('/api/alerts/bill-reminders');
     return response.data;
   } catch (error) {
     console.error("Error checking bill reminders:", error);
@@ -37,7 +37,7 @@ export const checkBillReminders = async () => {
 
 export const getAlertsSummary = async () => {
   try {
-    const response = await axiosClient.get('/alerts/summary/');
+    const response = await axiosClient.get('/api/alerts/summary/');
     return response.data;
   } catch (error) {
     console.error("Error fetching alerts summary:", error);
@@ -47,7 +47,7 @@ export const getAlertsSummary = async () => {
 
 export const markAlertAsRead = async (alertId) => {
   try {
-    const response = await axiosClient.patch(`/alerts/${alertId}/read/`);
+    const response = await axiosClient.patch(`/api/alerts/${alertId}/read`);
     return response.data;
   } catch (error) {
     console.error(`Error marking alert ${alertId} as read:`, error);
@@ -57,7 +57,7 @@ export const markAlertAsRead = async (alertId) => {
 
 export const deleteAlert = async (alertId) => {
   try {
-    const response = await axiosClient.delete(`/alerts/${alertId}`);
+    const response = await axiosClient.delete(`/api/alerts/${alertId}`);
     return response.data;
   } catch (error) {
     console.error(`Error deleting alert ${alertId}:`, error);

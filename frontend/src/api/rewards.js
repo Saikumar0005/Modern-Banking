@@ -1,17 +1,17 @@
 import axiosClient from './client';
 
 export const getRewards = async () => {
-  const response = await axiosClient.get('/rewards');
+  const response = await axiosClient.get('/api/rewards');
   return response.data;
 };
 
 export const claimReward = async (rewardId) => {
-  const response = await axiosClient.post(`/rewards/${rewardId}/claim`);
+  const response = await axiosClient.post(`/api/rewards/${rewardId}/claim`);
   return response.data;
 };
 
 export const createReward = async (title, description, points) => {
-  const response = await axiosClient.post('/rewards', {
+  const response = await axiosClient.post('/api/rewards', {
     title,
     description,
     points
@@ -20,12 +20,12 @@ export const createReward = async (title, description, points) => {
 };
 
 export const getCurrencyRates = async () => {
-  const response = await axiosClient.get('/rewards/currency/rates');
+  const response = await axiosClient.get('/api/rewards/currency/rates');
   return response.data;
 };
 
 export const redeemPoints = async (points, redemptionType) => {
-  const response = await axiosClient.post('/rewards/redeem', {
+  const response = await axiosClient.post('/api/rewards/redeem', {
     points,
     redemption_type: redemptionType
   });
