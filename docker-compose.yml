@@ -4,6 +4,7 @@ services:
   # PostgreSQL Database
   postgres:
     image: postgres:15
+    container_name: banking_postgres
     environment:
       POSTGRES_DB: banking_db
       POSTGRES_USER: postgres
@@ -17,10 +18,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - banking_network
 
   # Backend API
   backend:
     build: ./backend
+    container_name: banking_backend
     ports:
       - "8000:8000"
     environment:
@@ -37,16 +41,25 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    networks:
+      - banking_network
 
   # Frontend
   frontend:
     build: ./frontend
+    container_name: banking_frontend
     ports:
       - "4173:4173"
     environment:
       - VITE_API_URL=http://localhost:8000
     depends_on:
       - backend
+    networks:
+      - banking_network
 
 volumes:
   postgres_data:
+
+networks:
+  banking_network:
+    driver: bridge
