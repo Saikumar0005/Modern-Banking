@@ -21,7 +21,7 @@ const KYCStatus = () => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axiosClient.get('/profile');
+      const response = await axiosClient.get('/api/profile');
       setProfile(response.data);
       setKycData({
         name: response.data.name || '',

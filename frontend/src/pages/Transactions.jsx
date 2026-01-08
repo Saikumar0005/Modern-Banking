@@ -48,11 +48,11 @@ const Transactions = () => {
       if (filters.transaction_type) params.append('transaction_type', filters.transaction_type);
       
       const queryString = params.toString();
-      const transactionUrl = queryString ? `/transactions/?${queryString}` : '/transactions/';
+      const transactionUrl = queryString ? `/api/transactions/?${queryString}` : '/api/transactions/';
       
       const [transactionsRes, accountsRes] = await Promise.all([
         axiosClient.get(transactionUrl),
-        axiosClient.get('/accounts/')
+        axiosClient.get('/api/accounts/')
       ]);
       
       let filteredTransactions = transactionsRes.data;
@@ -98,7 +98,7 @@ const Transactions = () => {
 
       if (editingTransaction) {
         // ✅ Added trailing slash
-        await axiosClient.put(`/transactions/${editingTransaction.id}/`, transactionData);
+        await axiosClient.put(`/api/transactions/${editingTransaction.id}`, transactionData);
         // Transaction updated alert
         try {
           const title = 'Transaction Updated';
@@ -111,7 +111,7 @@ const Transactions = () => {
         }
       } else {
         // ✅ Added trailing slash to fix 405 Method Not Allowed
-        const response = await axiosClient.post('/transactions/', transactionData);
+        const response = await axiosClient.post('/api/transactions/', transactionData);
         
         // Handle Budget Alerts if returned by backend
         if (response.data.budget_alert) {
@@ -150,7 +150,7 @@ const Transactions = () => {
     if (!window.confirm("Are you sure you want to delete this transaction?")) return;
     try {
       // ✅ Added trailing slash
-      await axiosClient.delete(`/transactions/${id}/`);
+      await axiosClient.delete(`/api/transactions/${id}`);
       setTransactions(transactions.filter(t => t.id !== id));
     } catch (error) {
       console.error("Error deleting transaction:", error);
@@ -248,7 +248,7 @@ const Transactions = () => {
       if (filters.date_from) params.append('start_date', filters.date_from);
       if (filters.date_to) params.append('end_date', filters.date_to);
       
-      const response = await axiosClient.get(`/export/transactions/csv?${params}`, {
+      const response = await axiosClient.get(`/api/export/transactions/csv?${params}`, {
         responseType: 'blob'
       });
       
@@ -267,7 +267,7 @@ const Transactions = () => {
 
   const handleDownloadTemplate = async () => {
     try {
-      const response = await axiosClient.get('/export/transactions/template', {
+      const response = await axiosClient.get('/api/export/transactions/template', {
         responseType: 'blob'
       });
       
@@ -296,7 +296,7 @@ const Transactions = () => {
       formDataObj.append('file', importFile);
       
       const response = await axiosClient.post(
-        `/transactions/import-csv?account_id=${formData.account_id}`,
+        `/api/transactions/import-csv?account_id=${formData.account_id}`,
         formDataObj,
         {
           headers: {

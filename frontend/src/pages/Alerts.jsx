@@ -100,7 +100,7 @@ const Alerts = () => {
 
   const fetchSummary = async () => {
     try {
-      const response = await axiosClient.get('/alerts/summary');
+      const response = await axiosClient.get('/api/alerts/summary');
       const data = response.data;
       setSummary(data);
     } catch (error) {

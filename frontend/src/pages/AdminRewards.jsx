@@ -39,7 +39,7 @@ const AdminRewards = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await axiosClient.get('/admin/users');
+      const response = await axiosClient.get('/api/admin/users');
       setUsers(response.data || []);
     } catch (error) {
       console.error('Failed to fetch users:', error);
