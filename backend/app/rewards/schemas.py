@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from decimal import Decimal
 from typing import Optional
 from datetime import datetime
@@ -10,19 +10,19 @@ class RewardCreate(BaseModel):
     reward_type: str
     value: Decimal
 
-    @validator('title')
+    @field_validator('title')
     def validate_title(cls, v):
         if len(v.strip()) < 2:
             raise ValueError('Title must be at least 2 characters')
         return v.strip()
 
-    @validator('points_required')
+    @field_validator('points_required')
     def validate_points(cls, v):
         if v <= 0:
             raise ValueError('Points required must be greater than 0')
         return v
 
-    @validator('value')
+    @field_validator('value')
     def validate_value(cls, v):
         if v <= 0:
             raise ValueError('Value must be greater than 0')
@@ -36,19 +36,19 @@ class RewardUpdate(BaseModel):
     value: Optional[Decimal] = None
     is_active: Optional[bool] = None
 
-    @validator('title')
+    @field_validator('title')
     def validate_title(cls, v):
         if v and len(v.strip()) < 2:
             raise ValueError('Title must be at least 2 characters')
         return v.strip() if v else v
 
-    @validator('points_required')
+    @field_validator('points_required')
     def validate_points(cls, v):
         if v and v <= 0:
             raise ValueError('Points required must be greater than 0')
         return v
 
-    @validator('value')
+    @field_validator('value')
     def validate_value(cls, v):
         if v and v <= 0:
             raise ValueError('Value must be greater than 0')

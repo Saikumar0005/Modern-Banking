@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 from decimal import Decimal
 from datetime import datetime
 from typing import Optional
@@ -10,26 +10,34 @@ class BudgetCreate(BaseModel):
     month: int
     year: int
     
-    @validator('name')
-    def validate_name(cls, v):
+    @field_validator('name')
+    @classmethod
+    def validate_name(cls, v: str) -> str:
         if len(v.strip()) < 2:
             raise ValueError('Name must be at least 2 characters')
         return v.strip()
 
-    @validator('amount')
-    def validate_amount(cls, v):
+    @field_validator('amount')
+    @classmethod
+    def validate_amount(cls, v: float) -> float:
         if v <= 0:
             raise ValueError('Amount must be positive')
         return v
 
-    @validator('month')
-    def validate_month(cls, v):
+    @field_validator('month')
+    @classmethod
+    def validate_month(cls, v: int) -> int:
         if not 1 <= v <= 12:
             raise ValueError('Month must be between 1 and 12')
         return v
 
-    @validator('year')
-    def validate_year(cls, v):
+    @field_validator('year')
+    @classmethod
+    def validate_year(cls, v: int) -> int:
+        current_year = datetime.now().year
+        if not (current_year - 1) <= v <= (current_year + 5):
+            raise ValueError(f'Year must be between {current_year - 1} and {current_year + 5}')
+        return v
 
 class BudgetUpdate(BaseModel):
     name: Optional[str] = None
@@ -38,15 +46,19 @@ class BudgetUpdate(BaseModel):
     month: Optional[int] = None
     year: Optional[int] = None
     
-    @validator('name')
-    def validate_name(cls, v):
+    @field_validator('name')
+    @classmethod
+    def validate_name(cls, v: Optional[str]) -> Optional[str]:
         if v and len(v.strip()) < 2:
             raise ValueError('Name must be at least 2 characters')
         return v.strip() if v else v
 
-    @validator('amount')
-    def validate_amount(cls, v):
+    @field_validator('amount')
+    @classmethod
+    def validate_amount(cls, v: Optional[float]) -> Optional[float]:
         if v is not None and v <= 0:
+            raise ValueError('Amount must be positive')
+        return v
 
 class BudgetResponse(BaseModel):
     id: int
