@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from decimal import Decimal
 from datetime import datetime
 from typing import Optional
@@ -10,13 +10,13 @@ class BillCreate(BaseModel):
     category: str
     description: Optional[str] = None
 
-    @validator('bill_name')
+    @field_validator('bill_name')
     def validate_bill_name(cls, v):
         if len(v.strip()) < 2:
             raise ValueError('Bill name must be at least 2 characters')
         return v.strip()
 
-    @validator('amount')
+    @field_validator('amount')
     def validate_amount(cls, v):
         if v <= 0:
             raise ValueError('Amount must be greater than 0')
@@ -30,13 +30,13 @@ class BillUpdate(BaseModel):
     description: Optional[str] = None
     is_paid: Optional[int] = None
 
-    @validator('bill_name')
+    @field_validator('bill_name')
     def validate_bill_name(cls, v):
         if v and len(v.strip()) < 2:
             raise ValueError('Bill name must be at least 2 characters')
         return v.strip() if v else v
 
-    @validator('amount')
+    @field_validator('amount')
     def validate_amount(cls, v):
         if v and v <= 0:
             raise ValueError('Amount must be greater than 0')

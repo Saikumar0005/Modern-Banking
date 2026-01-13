@@ -1,4 +1,4 @@
-from pydantic import BaseModel, validator
+from pydantic import BaseModel, field_validator
 from decimal import Decimal
 from datetime import datetime
 from typing import Optional
@@ -17,7 +17,7 @@ class AccountCreate(BaseModel):
     bank_name: Optional[str] = "Main Bank"
     balance: Optional[Decimal] = Decimal('0.00')
 
-    @validator('name')
+    @field_validator('name')
     def validate_name(cls, v):
         if len(v.strip()) < 2:
             raise ValueError('Account name must be at least 2 characters')
@@ -28,7 +28,7 @@ class AccountUpdate(BaseModel):
     name: Optional[str] = None
     account_type: Optional[AccountType] = None
     
-    @validator('name')
+    @field_validator('name')
     def validate_name(cls, v):
         if v and len(v.strip()) < 2:
             raise ValueError('Account name must be at least 2 characters')
