@@ -4,14 +4,9 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from pydantic import BaseModel
 from typing import List, Optional
 from datetime import datetime, timedelta
-import jwt
 import os
 import hashlib
-from dotenv import load_dotenv
 from waitress import serve
-
-# Load environment variables
-load_dotenv()
 
 app = FastAPI(title="Banking Backend API", version="1.0.0")
 
