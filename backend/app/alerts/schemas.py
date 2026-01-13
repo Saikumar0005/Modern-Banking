@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, validator
 from decimal import Decimal
 from datetime import datetime
 from typing import Optional
@@ -17,13 +17,13 @@ class AlertCreate(BaseModel):
     message: str
     threshold_amount: Optional[Decimal] = None
     
-    @field_validator('title')
+    @validator('title')
     def validate_title(cls, v):
         if len(v.strip()) < 3:
             raise ValueError('Title must be at least 3 characters')
         return v.strip()
 
-    @field_validator('message')
+    @validator('message')
     def validate_message(cls, v):
         if len(v.strip()) < 5:
             raise ValueError('Message must be at least 5 characters')

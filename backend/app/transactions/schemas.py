@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator, EmailStr
+from pydantic import BaseModel, validator, EmailStr
 from decimal import Decimal
 from datetime import datetime
 from typing import Optional
@@ -19,13 +19,13 @@ class TransactionCreate(BaseModel):
     date: Optional[str] = None  # Added date field
     merchant: Optional[str] = None  # Added merchant field
     
-    @field_validator('amount')
+    @validator('amount')
     def validate_amount(cls, v):
         if v == 0:
             raise ValueError('Amount cannot be zero')
         return v
 
-    @field_validator('description')
+    @validator('description')
     def validate_description(cls, v):
         if v and len(v.strip()) > 500:
             raise ValueError('Description cannot exceed 500 characters')

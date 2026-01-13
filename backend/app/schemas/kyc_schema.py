@@ -1,4 +1,4 @@
-from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, validator
 from typing import Optional
 from datetime import datetime
 from enum import Enum
@@ -24,7 +24,7 @@ class KYCSubmissionSchema(BaseModel):
     document_type: DocumentTypeEnum
     document_number: str
     
-    @field_validator('document_number')
+    @validator('document_number')
     def validate_document_number(cls, v, values):
         doc_type = values.get('document_type')
         if doc_type == DocumentTypeEnum.aadhaar and len(v) != 12:
@@ -33,7 +33,7 @@ class KYCSubmissionSchema(BaseModel):
             raise ValueError('PAN number must be 10 characters')
         return v
 
-    @field_validator('phone')
+    @validator('phone')
     def validate_phone(cls, v):
         if len(v) != 10 or not v.isdigit():
             raise ValueError('Phone number must be 10 digits')
@@ -56,7 +56,7 @@ class KYCVerificationSchema(BaseModel):
     action: str  # "approved", "rejected", "requested_changes"
     comments: Optional[str] = None
     
-    @field_validator('action')
+    @validator('action')
     def validate_action(cls, v):
         if v not in ['approved', 'rejected', 'requested_changes']:
             raise ValueError('Action must be approved, rejected, or requested_changes')

@@ -28,11 +28,6 @@ class AccountUpdate(BaseModel):
     name: Optional[str] = None
     account_type: Optional[AccountType] = None
     
-    @field_validator('name')
-    def validate_name(cls, v):
-        if v and len(v.strip()) < 2:
-            raise ValueError('Account name must be at least 2 characters')
-        return v.strip() if v else v
 
 class AccountResponse(BaseModel):
     id: int
