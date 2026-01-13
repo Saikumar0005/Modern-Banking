@@ -278,6 +278,23 @@ async def register(user_data: dict):
         }
     }
 
+# KYC endpoints
+@app.post("/profile/kyc/submit")
+async def submit_kyc(kyc_data: dict):
+    return {
+        "message": "KYC submitted successfully",
+        "status": "pending",
+        "reference_id": "KYC123456"
+    }
+
+@app.get("/api/profile/kyc/status")
+async def get_kyc_status():
+    return {
+        "status": "verified",
+        "submitted_at": "2024-01-01T00:00:00Z",
+        "verified_at": "2024-01-02T00:00:00Z"
+    }
+
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
