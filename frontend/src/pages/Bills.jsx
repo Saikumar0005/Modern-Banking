@@ -64,7 +64,8 @@ const Bills = () => {
 
   const toggleAutoPay = async (billId) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/bills/${billId}/autopay`, {
+      const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+      const response = await fetch(`${API_BASE_URL}/api/bills/${billId}/autopay`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

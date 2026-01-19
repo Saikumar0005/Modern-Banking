@@ -120,6 +120,29 @@ def get_clean_db():
 def init_database():
     """Initialize database tables"""
     Base.metadata.create_all(bind=engine)
+    
+    # Custom migration for auto_pay column
+    try:
+        with engine.connect() as connection:
+            # Check if column exists by trying to select it
+            try:
+                connection.execute(text("SELECT auto_pay FROM bills LIMIT 1"))
+            except Exception:
+                print("Column auto_pay not found in bills table. Adding it...")
+                try:
+                    # Add column if selection failed
+                    if "postgresql" in str(engine.url):
+                        connection.execute(text("ALTER TABLE bills ADD COLUMN auto_pay BOOLEAN DEFAULT FALSE"))
+                    else:
+                        # SQLite
+                        connection.execute(text("ALTER TABLE bills ADD COLUMN auto_pay BOOLEAN DEFAULT 0"))
+                    connection.commit()
+                    print("Column auto_pay added successfully.")
+                except Exception as e:
+                    print(f"Failed to add auto_pay column: {e}")
+    except Exception as e:
+        # Tables might not exist yet if this is first run, which is fine
+        pass
 
 def create_sample_data():
     """Initialize database tables only - no default users"""
