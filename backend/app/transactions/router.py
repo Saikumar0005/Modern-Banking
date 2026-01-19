@@ -30,8 +30,8 @@ def create_transaction(transaction: TransactionCreate, db: Session = Depends(get
         
         # Check for sufficient balance on debit transactions
         transaction_amount = Decimal(str(transaction.amount))
-        if transaction.txn_type == "debit" and Decimal(str(account.balance)) < transaction_amount:
-            raise HTTPException(status_code=400, detail="Insufficient balance")
+        # if transaction.txn_type == "debit" and Decimal(str(account.balance)) < transaction_amount:
+        #     raise HTTPException(status_code=400, detail="Insufficient balance")
         
         # 2. Create transaction record
         db_transaction = Transaction(

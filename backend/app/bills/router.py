@@ -68,3 +68,22 @@ def delete_bill(
     success = BillService.delete_bill(db, bill_id, current_user.id)
     if not success:
         raise HTTPException(status_code=404, detail="Bill not found")
+
+@router.patch("/{bill_id}/autopay")
+def toggle_autopay(bill_id: int, db: Session = Depends(get_db), current_user = Depends(get_current_user)):
+    # Re-using service or direct DB access. Service doesn't seem to have toggle method.
+    # We will do direct DB access here for simplicity and safety.
+    from app.models.bill import Bill
+    bill = db.query(Bill).filter(Bill.id == bill_id, Bill.user_id == current_user.id).first()
+    if not bill:
+        raise HTTPException(status_code=404, detail="Bill not found")
+    
+    bill.auto_pay = not (bill.auto_pay or False)
+    db.commit()
+    db.refresh(bill)
+    
+    return {
+        "message": f"Auto-pay {'enabled' if bill.auto_pay else 'disabled'}",
+        "id": bill_id,
+        "autoPay": bill.auto_pay
+    }
