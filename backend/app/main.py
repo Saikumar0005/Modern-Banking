@@ -98,6 +98,14 @@ def setup_database():
             )
             db.add(admin_user)
             db.commit()
+            print("✅ Created default admin user")
+        else:
+            # FORCE ENABLE the admin user if they already exist
+            # This fixes the "Account is deactivated" error if the data got corrupted
+            if not admin_user.is_active:
+                admin_user.is_active = True
+                db.commit()
+                print("✅ Re-activated existing admin user")
             db.refresh(admin_user)
             print("Admin user created: admin@bank.com / admin123")
         else:
