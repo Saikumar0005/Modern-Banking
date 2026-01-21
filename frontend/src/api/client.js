@@ -75,10 +75,17 @@ axiosClient.interceptors.response.use(
       console.error("🔥 Backend Error (500):", message);
     } else if (!error.response) {
       console.error("🌐 Network Error: Backend server may be down");
-      console.error("💡 Please check if the backend server is running on http://localhost:8000");
-      console.error("💡 Try running: cd backend && python start_server.py");
+      console.error(`💡 Please check if the backend server is running at ${API_BASE_URL}`);
+      if (API_BASE_URL.includes("localhost")) {
+         console.error("💡 Try running: cd backend && python start_server.py");
+      }
     } else {
       console.error(`❌ API Error (${status}):`, message);
+    }
+
+    // Propagate the specific error message to the UI
+    if (error.response && error.response.data && error.response.data.detail) {
+        error.message = error.response.data.detail;
     }
 
     return Promise.reject(error);
