@@ -95,17 +95,17 @@ const Register = () => {
         
         {/* Left Side - Bank Image */}
         <div className="w-full md:w-1/2 relative">
-          <img src="/bank.jpg" alt="ASUNova Bank" className="w-full h-full object-cover" />
+          <img src="/bank.jpg" alt="ASU Nova Banking" className="w-full h-full object-cover" />
         </div>
 
         {/* Right Side - Form */}
         <div className="w-full md:w-1/2 px-4 py-6">
           <div className="text-center mb-4">
             <div className="w-12 h-12 mx-auto mb-2 flex items-center justify-center">
-              <img src="/bank_logo.png" alt="ASUNova Bank" className="w-full h-full object-contain" />
+              <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-full h-full object-contain" />
             </div>
             <h1 className="text-sm font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              ASUNova
+              ASU Nova Banking
             </h1>
             <h2 className="text-lg font-bold text-slate-700">Create Account</h2>
           </div>

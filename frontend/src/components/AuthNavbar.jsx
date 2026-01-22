@@ -6,9 +6,9 @@ const AuthNavbar = () => {
     <header className="bg-white/80 backdrop-blur-sm border-b border-blue-100 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-2">
-          <img src="/bank_logo.png" alt="ASUNova" className="w-8 h-8 object-contain" />
+          <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-8 h-8 object-contain" />
           <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            ASUNova
+            ASU Nova Banking
           </span>
         </Link>
         <div className="flex gap-4">

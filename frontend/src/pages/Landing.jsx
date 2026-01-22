@@ -23,9 +23,9 @@ const Landing = () => {
       <header className="bg-gradient-to-r from-blue-100 via-blue-50 to-purple-100 backdrop-blur-sm border-b border-blue-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <img src="/bank_logo.png" alt="ASUNova" className="w-8 h-8 object-contain" />
+            <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-8 h-8 object-contain" />
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              ASUNova
+              ASU Nova Banking
             </span>
           </div>
           <div className="flex gap-4">
@@ -142,8 +142,8 @@ const Landing = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center gap-2 mb-4">
-                <img src="/bank_logo.png" alt="ASUNova" className="w-8 h-8 object-contain" />
-                <span className="text-xl font-bold">ASUNova</span>
+                <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-8 h-8 object-contain" />
+                <span className="text-xl font-bold">ASU Nova Banking</span>
               </div>
               <p className="text-gray-400">Modern banking for the digital age.</p>
             </div>
@@ -176,7 +176,7 @@ const Landing = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2025 ASUNova. All rights reserved.</p>
+            <p>&copy; 2025 ASU Nova Banking. All rights reserved.</p>
           </div>
         </div>
       </footer>

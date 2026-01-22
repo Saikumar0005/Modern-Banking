@@ -102,7 +102,7 @@ const Accounts = () => {
       const payload = {
         name: formData.name,            // Backend: name
         account_type: formData.type,    // Backend: account_type
-        bank_name: "Asunova Bank",      // Backend: bank_name
+        bank_name: "ASU Nova Banking",      // Backend: bank_name
         balance: parseFloat(formData.balance) || 0.0
       };
 

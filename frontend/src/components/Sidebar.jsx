@@ -128,12 +128,12 @@ const Sidebar = () => {
       <div className={`flex items-center mb-6 pt-6 ${isExpanded ? 'justify-between' : 'justify-center'}`}>
         {isExpanded && (
           <div className="flex items-center gap-2">
-            <img src="/bank_logo.png" alt="ASUNova" className="w-8 h-8 object-contain" />
-            <span className="text-lg font-bold text-white">ASUNova</span>
+            <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-8 h-8 object-contain" />
+            <span className="text-lg font-bold text-white">ASU Nova Banking</span>
           </div>
         )}
         {!isExpanded && (
-          <img src="/bank_logo.png" alt="ASUNova" className="w-8 h-8 object-contain mb-2" />
+          <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-8 h-8 object-contain mb-2" />
         )}
         <button 
           onClick={toggleSidebar}

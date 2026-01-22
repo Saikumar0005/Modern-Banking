@@ -136,10 +136,10 @@ const Login = () => {
               <div className="px-8 py-8">
                 <div className="mb-6 text-center">
                   <div className="w-24 h-24 mx-auto mb-3 flex items-center justify-center">
-                    <img src="/bank_logo.png" alt="ASUNova Bank" className="w-full h-full object-contain" />
+                    <img src="/bank_logo.png" alt="ASU Nova Banking" className="w-full h-full object-contain" />
                   </div>
                   <h1 className="text-lg font-extrabold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-tight mb-1">
-                    ASUNova
+                    ASU Nova Banking
                   </h1>
                   <h2 className="text-xl font-bold text-slate-700 mb-2">
                     Welcome Back
