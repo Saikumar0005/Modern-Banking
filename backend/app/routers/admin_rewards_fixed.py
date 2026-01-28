@@ -19,6 +19,8 @@ async def get_recent_rewards():
                 "id": reward.id,
                 "title": getattr(reward, 'title', None) or reward.program_name,
                 "points": reward.points_balance,
+                "reward_type": getattr(reward, 'reward_type', 'points'),
+                "reward_value": getattr(reward, 'reward_value', ''),
                 "admin_message": getattr(reward, 'admin_message', None),
                 "created_at": reward.created_at.isoformat(),
                 "user": {
@@ -43,12 +45,18 @@ async def give_reward_to_user(user_id: int, reward_data: dict):
                 headers={"Access-Control-Allow-Origin": "*"}
             )
         
+        # Calculate points - if it's a points reward use that, else 0 or maybe convert?
+        # For now, let's keep points_balance as 0 for non-points rewards unless specified
+        points = reward_data.get('points', 0)
+        
         new_reward = Reward(
             user_id=user_id,
             program_name=reward_data.get('title', 'Admin Reward'),
-            points_balance=reward_data.get('points', 0),
+            points_balance=points,
+            reward_type=reward_data.get('reward_type', 'points'),
+            reward_value=str(reward_data.get('reward_value', '')),
             given_by_admin=True,
-            admin_message=reward_data.get('admin_message', f"Admin reward: {reward_data.get('points', 0)} points"),
+            admin_message=reward_data.get('admin_message', f"Admin reward: {points} points"),
             title=reward_data.get('title', 'Admin Reward')
         )
         
@@ -56,7 +64,7 @@ async def give_reward_to_user(user_id: int, reward_data: dict):
         db.commit()
         
         return JSONResponse(
-            content={"message": f"Successfully gave {reward_data.get('points', 0)} points to {user.name}"},
+            content={"message": f"Successfully gave reward to {user.name}"},
             headers={"Access-Control-Allow-Origin": "*"}
         )
     finally:

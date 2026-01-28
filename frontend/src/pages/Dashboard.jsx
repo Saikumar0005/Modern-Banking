@@ -115,8 +115,13 @@ const Dashboard = () => {
 
   const totalBalance = accounts.reduce((sum, acc) => sum + (parseFloat(acc.balance) || 0), 0);
 
-  // Prepare pie chart data for budgets
-  const budgetChartData = budgets.length > 0 ? budgets.map((budget, index) => {
+  // Calculate total budget stats
+  const totalBudgetLimit = budgets.reduce((sum, b) => sum + ((b.limit_amount ?? b.amount) || 0), 0);
+  const totalBudgetSpent = budgets.reduce((sum, b) => sum + ((b.spent_amount ?? b.spent) || 0), 0);
+  const totalRemaining = Math.max(0, totalBudgetLimit - totalBudgetSpent);
+
+  // Prepare list data
+  const budgetListItems = budgets.length > 0 ? budgets.map((budget, index) => {
     const spent = (budget.spent_amount ?? budget.spent) || 0;
     const limit = (budget.limit_amount ?? budget.amount) || 1;
     const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
@@ -129,8 +134,23 @@ const Dashboard = () => {
     };
   }) : [];
 
+  // Prepare chart data (includes "Remaining" slice)
+  const pieChartData = [
+    ...budgetListItems,
+    {
+      name: 'Remaining',
+      value: totalRemaining,
+      limit: totalBudgetLimit,
+      fill: '#F3F4F6', // Light gray
+      isRemaining: true
+    }
+  ].filter(item => item.value > 0);
+
   const RADIAN = Math.PI / 180;
   const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
+    // Only show label if slice is significantly large (>5%)
+    if (percent < 0.05) return null;
+    
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
@@ -139,7 +159,7 @@ const Dashboard = () => {
       <text 
         x={x} 
         y={y} 
-        fill="white" 
+        fill={percent > 0.5 ? "white" : "#374151"} 
         textAnchor={x > cx ? 'start' : 'end'} 
         dominantBaseline="central"
         fontSize="12"
@@ -251,25 +271,28 @@ const Dashboard = () => {
                   <ResponsiveContainer width="100%" height={256}>
                     <PieChart>
                       <Pie
-                        data={budgetChartData}
+                        data={pieChartData}
                         cx="50%"
                         cy="50%"
                         labelLine={false}
                         label={renderCustomizedLabel}
                         outerRadius={90}
-                        fill="#8884d8"
                         dataKey="value"
                       >
-                        {budgetChartData.map((entry, index) => (
+                        {pieChartData.map((entry, index) => (
                           <Cell key={`cell-${index}`} fill={entry.fill} />
                         ))}
                       </Pie>
                       <Tooltip 
-                        formatter={(value, name, props) => [
-                          `${formatCurrency(value)} spent of ${formatCurrency(props.payload.limit)}`,
-                          props.payload.name
-                        ]}
-                        labelFormatter={() => 'Budget Details'}
+                        formatter={(value, name, props) => {
+                          if (props.payload.isRemaining) {
+                            return [`${formatCurrency(value)}`, 'Remaining Budget'];
+                          }
+                          return [
+                            `${formatCurrency(value)} spent of ${formatCurrency(props.payload.limit)}`,
+                            props.payload.name
+                          ];
+                        }}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -277,7 +300,7 @@ const Dashboard = () => {
                 
                 {/* Budget Legend with Values */}
                 <div className="grid grid-cols-1 gap-2">
-                  {budgetChartData.map((budget, index) => (
+                  {budgetListItems.map((budget, index) => (
                     <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg">
                       <div className="flex items-center gap-2">
                         <div 

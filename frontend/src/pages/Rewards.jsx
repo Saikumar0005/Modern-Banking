@@ -11,7 +11,6 @@ const Rewards = () => {
 
   useEffect(() => {
     fetchRewardsData();
-    calculateUserPoints();
   }, []);
 
   const fetchRewardsData = async () => {
@@ -27,6 +26,10 @@ const Rewards = () => {
         rewardsList = rewardsRes.rewards;
       }
       
+      // Calculate total points from all rewards
+      const totalPoints = rewardsList.reduce((sum, reward) => sum + (reward.points || 0), 0);
+      setUserPoints(totalPoints);
+
       // Filter for admin-given rewards
       const adminRewards = rewardsList.filter(reward => reward.given_by_admin === true);
       console.log('Admin rewards found:', adminRewards);
@@ -34,17 +37,10 @@ const Rewards = () => {
     } catch (error) {
       console.error('Failed to fetch rewards data:', error);
       setRewards([]);
+      setUserPoints(0);
     } finally {
       setLoading(false);
     }
-  };
-
-  const calculateUserPoints = () => {
-    const basePoints = 1250;
-    const transactionBonus = Math.floor(Math.random() * 300);
-    const billPaymentBonus = Math.floor(Math.random() * 200);
-    const totalPoints = basePoints + transactionBonus + billPaymentBonus;
-    setUserPoints(totalPoints);
   };
 
   if (loading) return <Loader />;
@@ -121,7 +117,20 @@ const Rewards = () => {
                     {reward.description || 'Congratulations! You received a special reward from admin.'}
                   </p>
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-lg font-bold text-purple-600">+{reward.points || reward.points_required || 0} points</span>
+                    <span className="text-lg font-bold text-purple-600">
+                      {(reward.reward_type === 'points' || !reward.reward_type) ? (
+                        `+${reward.points || reward.points_required || 0} points`
+                      ) : (
+                        <>
+                          {reward.reward_type === 'cashback' && '+ ₹'}
+                          {reward.reward_value} 
+                          {reward.reward_type === 'premium' && ' months'}
+                          {reward.reward_type === 'interest_boost' && '% rate'}
+                          {reward.reward_type === 'fee_waiver' && ' days'}
+                          <span className="text-xs ml-2 text-gray-500 font-normal uppercase border-l pl-2 capitalize">{reward.reward_type.replace('_', ' ')}</span>
+                        </>
+                      )}
+                    </span>
                     <Star className="w-5 h-5 text-yellow-500" />
                   </div>
                   <div className="text-xs text-gray-400">

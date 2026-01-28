@@ -75,15 +75,7 @@ def check_bill_reminders(
 def check_bill_reminders():
     return {
         "message": "Bill reminders checked",
-        "reminders": [
-            {
-                "id": 1,
-                "bill_name": "Electricity Bill",
-                "amount": 120.00,
-                "due_date": "2024-01-20",
-                "days_until_due": 3
-            }
-        ]
+        "reminders": []
     }
 
 @router.get("/unread-count")

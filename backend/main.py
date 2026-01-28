@@ -74,11 +74,7 @@ class Analytics(BaseModel):
 
 # Mock data storage (in production, use a proper database)
 expenses_db = []
-bills_db = [
-    {"id": 1, "name": "Electricity Bill", "amount": 2500.0, "dueDate": "2024-01-15", "status": "pending", "autoPay": False},
-    {"id": 2, "name": "Internet Bill", "amount": 1200.0, "dueDate": "2024-01-20", "status": "paid", "autoPay": True},
-    {"id": 3, "name": "Water Bill", "amount": 800.0, "dueDate": "2024-01-25", "status": "pending", "autoPay": False}
-]
+bills_db = []
 categories_db = [
     {"name": "Food & Dining", "icon": "🍔", "color": "bg-red-500"},
     {"name": "Transportation", "icon": "🚗", "color": "bg-blue-500"},

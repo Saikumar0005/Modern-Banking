@@ -35,7 +35,9 @@ def get_rewards(current_user = Depends(get_current_user), db: Session = Depends(
                 "admin_message": getattr(reward, 'admin_message', None),
                 "description": getattr(reward, 'admin_message', None) or reward.program_name,
                 "created_at": getattr(reward, 'created_at', None) or reward.last_updated,
-                "last_updated": reward.last_updated.isoformat() if reward.last_updated else None
+                "last_updated": reward.last_updated.isoformat() if reward.last_updated else None,
+                "reward_type": getattr(reward, 'reward_type', 'points'),
+                "reward_value": getattr(reward, 'reward_value', '')
             } for reward in rewards
         ]
     except Exception as e:

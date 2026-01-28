@@ -64,7 +64,9 @@ const AdminRewards = () => {
       await axiosClient.post(`/admin/users/${selectedUser}/give-reward`, {
         points: parseInt(rewardData.points),
         admin_message: rewardData.message,
-        title: rewardData.title
+        title: rewardData.title,
+        reward_type: rewardData.reward_type,
+        reward_value: rewardData.reward_value
       });
       
       alert('Reward given successfully!');
@@ -334,8 +336,23 @@ const AdminRewards = () => {
                       </td>
                       <td className="py-3 px-4">
                         <span className="inline-flex items-center gap-1 bg-green-100 text-green-800 px-2 py-1 rounded-full text-sm font-medium">
-                          <DollarSign size={14} />
-                          {reward.points}
+                          {reward.reward_type === 'points' || !reward.reward_type ? (
+                            <>
+                              <DollarSign size={14} />
+                              {reward.points}
+                            </>
+                          ) : (
+                            <>
+                              {reward.reward_type === 'cashback' || reward.reward_type === 'gift_card' ? '₹' : ''}
+                              {reward.reward_value}
+                              {reward.reward_type === 'premium' || reward.reward_type === 'vip_support' ? ' mo' : ''}
+                              {reward.reward_type === 'interest_boost' ? '%' : ''}
+                              {reward.reward_type === 'fee_waiver' ? ' days' : ''}
+                              <span className="text-xs ml-1 capitalize text-green-900 border-l border-green-300 pl-1">
+                                {reward.reward_type.replace('_', ' ')}
+                              </span>
+                            </>
+                          )}
                         </span>
                       </td>
                       <td className="py-3 px-4 text-sm text-gray-500">

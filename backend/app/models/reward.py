@@ -13,6 +13,8 @@ class Reward(Base):
     given_by_admin = Column(Boolean, default=False)
     admin_message = Column(String, nullable=True)
     title = Column(String, nullable=True)
+    reward_type = Column(String, default="points")
+    reward_value = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     last_updated = Column(DateTime(timezone=True), server_default=func.now())
     

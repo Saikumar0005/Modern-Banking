@@ -15,28 +15,19 @@ class BillCreate(BaseModel):
 
 @router.get("")
 def get_bills(current_user = Depends(get_current_user), db: Session = Depends(get_db)):
+    # Auto-cleanup: Delete any leftover default bills from the database
+    db.query(Bill).filter(
+        Bill.user_id == current_user.id,
+        Bill.biller_name.in_(["Electricity Bill", "Internet Bill"]),
+        Bill.amount_due.in_([150.00, 80.00])
+    ).delete(synchronize_session=False)
+    db.commit()
+
     bills = db.query(Bill).filter(Bill.user_id == current_user.id).all()
     
-    # Create sample bills if none exist
+    # Return empty list if no bills exist (do not create sample bills for new users)
     if not bills:
-        sample_bills = [
-            Bill(
-                user_id=current_user.id,
-                biller_name="Electricity Bill",
-                amount_due=150.00,
-                due_date=date(2025, 1, 15)
-            ),
-            Bill(
-                user_id=current_user.id,
-                biller_name="Internet Bill",
-                amount_due=80.00,
-                due_date=date(2025, 1, 20)
-            )
-        ]
-        for bill in sample_bills:
-            db.add(bill)
-        db.commit()
-        bills = sample_bills
+        pass
     
     return [
         {
